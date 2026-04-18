@@ -659,6 +659,12 @@ function renderQueues(restoredId=null, bumpWA=false) {
     }
     document.getElementById('pendingCount').innerText   = pendingQueue.length;
     document.getElementById('deliveredCount').innerText = deliveredQueue.length;
+
+    // Sync mobile tab badges
+    const mb = document.getElementById('mobPendingBadge');
+    const db = document.getElementById('mobDeliveredBadge');
+    if (mb) mb.textContent  = pendingQueue.length  > 0 ? pendingQueue.length  : '';
+    if (db) db.textContent  = deliveredQueue.length > 0 ? deliveredQueue.length : '';
     document.getElementById('pendingList').innerHTML    = pendingQueue.map(n => createCard(n,true,false,bumpWA&&n.isStack)).join('');
     document.getElementById('deliveredList').innerHTML  = deliveredQueue.map(n => createCard(n,false,n.id===restoredId,false)).join('');
 }
@@ -951,6 +957,24 @@ document.getElementById('openLogicBtn').addEventListener('click',()=>{
 document.getElementById('closeLogicBtn').addEventListener('click',()=>{
     document.getElementById('logicModal').classList.remove('active');
 });
+
+// ── 25b. MOBILE TAB SWITCHING ─────────────────────────────────
+window.switchMobTab = function(tab) {
+    // Reset all tabs
+    document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
+    const key = tab.charAt(0).toUpperCase() + tab.slice(1);
+    const btn = document.getElementById('mobTab' + key);
+    if (btn) btn.classList.add('active');
+
+    // Toggle drawers
+    const left  = document.getElementById('leftPanel');
+    const right = document.getElementById('rightPanel');
+    left.classList.remove('mobile-open');
+    right.classList.remove('mobile-open');
+
+    if (tab === 'pending')   left.classList.add('mobile-open');
+    if (tab === 'delivered') right.classList.add('mobile-open');
+};
 
 // ── 26. TRIP RESET ────────────────────────────────────────────
 document.getElementById('newTripBtn').addEventListener('click',()=>{

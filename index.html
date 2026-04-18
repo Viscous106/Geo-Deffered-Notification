@@ -229,6 +229,24 @@
     </div>
 </div>
 
+<!-- Mobile Tab Bar -->
+<div id="mobileTabBar">
+    <button class="mob-tab active" id="mobTabMap" onclick="switchMobTab('map')">
+        <span class="mob-tab-icon">🗺️</span><span>Map</span>
+    </button>
+    <button class="mob-tab" id="mobTabPending" onclick="switchMobTab('pending')">
+        <span class="mob-tab-icon">📥</span>
+        <span>Pending <span class="mob-tab-badge" id="mobPendingBadge"></span></span>
+    </button>
+    <button class="mob-tab" id="mobTabDelivered" onclick="switchMobTab('delivered')">
+        <span class="mob-tab-icon">📤</span>
+        <span>Delivered <span class="mob-tab-badge" id="mobDeliveredBadge"></span></span>
+    </button>
+    <button class="mob-tab" id="mobTabSettings" onclick="document.getElementById('openSettingsBtn').click()">
+        <span class="mob-tab-icon">⚙</span><span>Settings</span>
+    </button>
+</div>
+
 <!-- Leaflet -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <!-- App Logic -->
