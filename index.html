@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARMAN GeoDefer — Bangalore Autonomous HUD v3</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+    <div class="start-city-tag">⬡ Bangalore · Karnataka · IN</div>
+    <div class="start-logo">HARMAN <span>HUD</span></div>
+    <div class="start-subtitle">System Ready: Awaiting Route Initialization</div>
+    <button class="start-btn" id="startEngineBtn">INITIALIZE ARIA</button>
+    <div class="start-mic-note">Microphone access required for voice navigation</div>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Arrival / Shutdown Overlay -->
+<div id="arrivalOverlay">
+    <div class="arrival-inner">
+        <div class="arrival-icon">🏁</div>
+        <div class="arrival-title">Destination Reached</div>
+        <div class="arrival-dest" id="arrivalDestName">—</div>
+        <div class="arrival-msg" id="arrivalMsg"></div>
+        <div class="arrival-standby">GeoDefer · Standby Mode</div>
+    </div>
+</div>
+
+<!-- HUD Layer -->
+<div class="hud-layer">
+
+    <!-- Top Bar -->
+    <div class="panel top-bar" id="topBar">
+        <div class="speed-hud">
+            <span class="speed-val" id="speedDisplay">0</span>
+            <span class="speed-unit">KM/H</span>
+        </div>
+        <div class="hud-center">
+            <div class="clock" id="clockDisplay">--:--</div>
+            <div class="hud-bangalore-tag">Bangalore · GeoDefer Active</div>
+        </div>
+        <div class="signal-container" id="signalBars">
+            <div class="signal-bar active"></div>
+            <div class="signal-bar active"></div>
+            <div class="signal-bar active"></div>
+            <div class="signal-bar active"></div>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="alerts-container">
+        <div class="zone-alert"    id="zoneAlert">⚠ Dead Zone — Deferring Low Priority</div>
+        <div class="pothole-alert" id="potholeAlert">⚠ Pothole Detected Ahead</div>
+    </div>
+
+    <!-- LEFT: Pending -->
+    <div class="panel sidebar left-sidebar" id="leftPanel">
+        <h2>Pending <span class="badge" id="pendingCount">0</span></h2>
+        <div class="notification-list" id="pendingList"></div>
+    </div>
+
+    <!-- RIGHT: Delivered -->
+    <div class="panel sidebar right-sidebar" id="rightPanel">
+        <h2>Delivered <span class="badge" id="deliveredCount">0</span></h2>
+        <div class="notification-list" id="deliveredList"></div>
+    </div>
+
+    <!-- VOICE PANEL -->
+    <div id="voicePanel">
+        <div class="vp-assistant-line">
+            <div class="vp-avatar" id="vpAvatar">🤖</div>
+            <div class="vp-text-bubble">
+                <div class="vp-label">ARIA · GeoDefer Bangalore</div>
+                <div id="vpAssistantText">Initialising…</div>
+            </div>
+        </div>
+        <div class="waveform" id="waveform">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="vp-user-row">
+            <div class="mic-wrap">
+                <div id="micOrb"></div>
+                <span id="micStatus">Standby</span>
+            </div>
+            <div id="vpUserTranscript"></div>
+        </div>
+        <div class="vp-btn-row hidden" id="fallbackBtns"></div>
+        <div id="routePill">
+            <span>📍</span>
+            <span id="routePillText">Route: — → —</span>
+            <div id="routeProgressBar"><div id="routeProgressFill"></div></div>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <button class="settings-btn" id="openSettingsBtn">App Priorities</button>
+
+    <!-- Journey Info -->
+    <div class="journey-info" id="journeyInfo"></div>
+
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="settings-modal">
+        <div class="settings-header">
+            <h2>Notification Priorities</h2>
+            <button class="close-btn" id="closeSettingsBtn">&times;</button>
+        </div>
+        <div id="settingsList"></div>
+        <div class="setting-item" style="border-bottom:none;padding-top:18px;border-top:1px solid rgba(0,229,255,0.1);margin-top:8px;">
+            <div>
+                <div class="setting-name" style="color:var(--accent-cyan);">🔊 Voice Feedback</div>
+                <div class="setting-desc">ARIA reads alerts aloud during navigation</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="voiceToggle" checked><span class="slider"></span></label>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- App Logic -->
+<script src="app.js"></script>
+
+</body>
+</html>
